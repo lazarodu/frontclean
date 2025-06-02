@@ -22,7 +22,8 @@ jobs:
           node-version: 22.15
 
       - name: Instalar dependências
-        run: npm ci
+        # run: npm ci
+        run: npm i
 
       - name: Rodar os testes
         run: npm run test
