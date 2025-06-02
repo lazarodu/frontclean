@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { SMain } from "./styles";
-import type { PostListProps } from "../../types/PostType";
+import type { PostListProps } from "../../../shared/types/PostType";
 
 export function Post({ posts }: PostListProps) {
   return (

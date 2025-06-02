@@ -1,4 +1,4 @@
-import type { CommentProps } from "../types/CommentType"
+import type { CommentProps } from "../../shared/types/CommentType"
 
 export const mockComments: CommentProps[] = [
   {

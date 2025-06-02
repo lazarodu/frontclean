@@ -15,9 +15,9 @@ services:
     stdin_open: true
     tty: true
 
-  prod:
-    build:
-      context: .
-      dockerfile: Dockerfile.prod
-    ports:
-      - "8080:80"
+  # prod:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile.prod
+  #   ports:
+  #     - "8080:80"

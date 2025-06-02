@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from "react"
-import type { PostProps } from "../../types/PostType"
+import type { PostProps } from "../../../shared/types/PostType"
 import { SForm } from "./styles"
 
 export interface PostFormProps {

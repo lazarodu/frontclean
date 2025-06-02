@@ -1,5 +1,5 @@
 
-import type { PostProps } from "../types/PostType";
+import type { PostProps } from "../../shared/types/PostType";
 
 export const mockPosts: PostProps[] = [
   {

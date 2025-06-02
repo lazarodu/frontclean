@@ -5,6 +5,7 @@ import { AdminCreatePostPage } from "../../presentation/pages/AdminCreatePost"
 import { usePost } from "../../presentation/hooks/usePost"
 import { AuthContext } from "../../presentation/contexts/AuthContext"
 import { useNavigate } from "react-router-dom"
+import { Email } from "../../domain/value-objects/Email"
 
 // Mock do hook usePost
 vi.mock("../../presentation/hooks/usePost")
@@ -45,7 +46,7 @@ describe("AdminCreatePostPage", () => {
     const user = userEvent.setup()
 
     render(
-      <AuthContext.Provider value={{ currentUser: { id: "1", name: "Admin User", email: 'admin@example.com', role: 'admin' }, isLoading: false, login: vi.fn(), register: vi.fn(), logout: vi.fn() }}>
+      <AuthContext.Provider value={{ currentUser: { id: "1", name: "Admin User", email: new Email('admin@example.com'), role: 'admin' }, isLoading: false, login: vi.fn(), register: vi.fn(), logout: vi.fn() }}>
         <AdminCreatePostPage />
       </AuthContext.Provider>
     )
