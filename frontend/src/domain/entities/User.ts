@@ -5,7 +5,7 @@ export class User {
   public readonly id: string = ''
   public readonly name: string = ''
   public readonly email: Email;
-  public readonly password: Password
+  public readonly password?: Password
   public readonly role: 'admin' | 'user' = 'user';
 
   constructor(id: string, name: string, email: Email, password: Password) {

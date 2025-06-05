@@ -13,7 +13,7 @@ export class LoginController {
   async login(email: string, password: string): Promise<User | string> {
     try {
       const emailVO = new Email(email);
-      const passwordVO = new Password(password); // Assuming Password is similar to Email for this example
+      const passwordVO = new Password(password);
       const result = await this.usecase.execute(emailVO, passwordVO);
       return result ? result : "Falha";
     } catch (e) {

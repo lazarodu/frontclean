@@ -48,6 +48,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       setTimeout(async () => {
         // const user = mockUsers.find((u) => u.email.getValue() === email && u.password.getValue() === password)
         const user = await controller.login(email, password)
+        console.log(user)
 
         if (typeof user == "string") {
           reject(new Error("Invalid email or password"))

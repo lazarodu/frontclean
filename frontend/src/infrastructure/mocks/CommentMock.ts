@@ -1,6 +1,6 @@
-import type { CommentProps } from "../../shared/types/CommentType"
+import type { Comment } from "../../domain/entities/Comment"
 
-export const mockComments: CommentProps[] = [
+export const mockComments: Comment[] = [
   {
     id: "comment-1",
     postId: "post-1",
