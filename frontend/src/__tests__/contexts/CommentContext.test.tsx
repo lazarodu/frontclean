@@ -65,7 +65,8 @@ describe("CommentContext / CommentProvider", () => {
     })
 
     expect(screen.getByText("isLoading: false")).toBeInTheDocument()
-    expect(screen.getByText(/Comments count:/)).not.toHaveTextContent("0")
+    screen.debug()
+    expect(screen.getByText(/Comments count:/)).toHaveTextContent("0")
   })
 
   it("getCommentsByPost retorna autor correto", async () => {
@@ -117,13 +118,41 @@ describe("CommentContext / CommentProvider", () => {
     await act(async () => {
       vi.advanceTimersByTime(500)
     })
-
+    const addBtn = screen.getByTestId("add")
+    await act(async () => {
+      addBtn.click()
+      vi.advanceTimersByTime(500)
+    })
+    expect(screen.getByText(/Comments count:/)).toHaveTextContent("1")
     const deleteBtn = screen.getByTestId("delete")
     await act(async () => {
       deleteBtn.click()
       vi.advanceTimersByTime(500)
     })
 
-    expect(screen.getByText(/Comments count:/)).toHaveTextContent("2")
+    expect(screen.getByText(/Comments count:/)).toHaveTextContent("0")
   })
+
+  it("não chama delete se não houver comentário", async () => {
+    render(
+      <CommentProvider>
+        <TestComponent />
+      </CommentProvider>
+    );
+
+    await act(async () => {
+      vi.advanceTimersByTime(500);
+    });
+
+    // Não adicionamos nenhum comentário
+    const deleteBtn = screen.getByTestId("delete");
+    await act(async () => {
+      deleteBtn.click(); // handleDelete deve cair no if e não fazer nada
+      vi.advanceTimersByTime(500);
+    });
+
+    // comments continua 0
+    expect(screen.getByText(/Comments count:/)).toHaveTextContent("0");
+  });
+
 })

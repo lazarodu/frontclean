@@ -1,10 +1,10 @@
 import type { User } from "../../domain/entities/User";
-import type { AuthRepository } from "../../domain/repositories/AuthRepository";
+import type { UserRepository } from "../../domain/repositories/UserRepository";
 import { Email } from "../../domain/value-objects/Email";
 import { Password } from "../../domain/value-objects/Password";
 import { mockUsers } from "../mocks/UserMock";
 
-export class AuthServiceInMemory implements AuthRepository {
+export class UserServiceInMemory implements UserRepository {
   private currentUser: User | null = null;
 
   async login(email: string, password: string): Promise<User> {
@@ -17,9 +17,12 @@ export class AuthServiceInMemory implements AuthRepository {
   }
 
   async register(name: string, email: string, password: string): Promise<User> {
-    const existingUser = mockUsers.find((u) => u.email.getValue() === email)
-    if (existingUser) {
+    const existingUserEmail = mockUsers.find((u) => u.email.getValue() === email)
+    const existingUserName = mockUsers.find((u) => u.name === name)
+    if (existingUserEmail) {
       throw new Error("Este e-mail já está em uso")
+    } else if (existingUserName) {
+      throw new Error("Este nome já está em uso")
     } else {
       const newUser = {
         id: `user-${Date.now()}`,
@@ -46,5 +49,9 @@ export class AuthServiceInMemory implements AuthRepository {
 
   getCurrentUser(): User | null {
     return this.currentUser
+  }
+
+  setCurrentUser(user: User): void {
+    this.currentUser = user;
   }
 }

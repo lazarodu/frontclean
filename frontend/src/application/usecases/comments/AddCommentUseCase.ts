@@ -1,5 +1,5 @@
-import { type CommentRepository } from "../../domain/repositories/CommentRepository";
-import { Comment } from "../../domain/entities/Comment";
+import { type CommentRepository } from "../../../domain/repositories/CommentRepository";
+import { Comment } from "../../../domain/entities/Comment";
 
 export class AddCommentUseCase {
     private repo: CommentRepository;

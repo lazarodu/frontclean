@@ -1,10 +1,6 @@
-"use client"
-
 import { createContext, useState, useEffect, type ReactNode } from "react"
 import type { CommentProps } from "../../shared/types/CommentType"
-import { mockComments } from "../../infrastructure/mocks/CommentMock"
-import type { UserProps } from "../../shared/types/UserType"
-import { mockUsers } from "../../infrastructure/mocks/UserMock"
+import { makeAddCommentUseCase, makeDeleteCommentUseCase, makeGetCommentsByPostUseCase, makeGetCommentsByUserUseCase } from "../../factories/makeCommentUseCases"
 
 interface CommentContextType {
   comments: CommentProps[]
@@ -30,40 +26,47 @@ interface CommentProviderProps {
 
 export const CommentProvider = ({ children }: CommentProviderProps) => {
   const [comments, setComments] = useState<CommentProps[]>([])
-  const [users, setUsers] = useState<UserProps[]>([])
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     // Simula chamada de API
     setTimeout(() => {
-      setComments(mockComments)
+      // setComments(mockComments)
       setIsLoading(false)
-      setUsers(mockUsers)
     }, 500)
   }, [])
 
   const getCommentsByPost = (postId: string) => {
-    return comments.filter((comment) => comment.postId === postId).map((p) => ({
-      ...p,
-      autor: users.filter(u => u.id === p.userId)[0].name
-    }))
+    // return comments.filter((comment) => comment.postId === postId).map((p) => ({
+    //   ...p,
+    //   autor: users.filter(u => u.id === p.userId)[0].name
+    // }))
+    const useCase = makeGetCommentsByPostUseCase()
+    const result = useCase.execute(postId)
+    return result
   }
 
   const getCommentsByUser = (userId: string) => {
-    return comments.filter((comment) => comment.userId === userId)
+    // return comments.filter((comment) => comment.userId === userId)
+    const useCase = makeGetCommentsByUserUseCase()
+    const result = useCase.execute(userId)
+    return result
   }
 
   const addComment = async (commentData: Omit<CommentProps, "id" | "data">) => {
     // Simula chamada de API
     return new Promise<CommentProps>((resolve) => {
-      setTimeout(() => {
-        const newComment: CommentProps = {
-          id: `comment-${Date.now()}`,
-          ...commentData,
-          data: `${new Date().toLocaleDateString()}`,
-        }
+      setTimeout(async () => {
+        // const newComment: CommentProps = {
+        //   id: `comment-${Date.now()}`,
+        //   ...commentData,
+        //   data: `${new Date().toLocaleDateString()}`,
+        // }
 
+        const useCase = makeAddCommentUseCase()
+        const newComment = await useCase.execute(commentData)
         setComments((prevComments) => [...prevComments, newComment])
+
         resolve(newComment)
       }, 500)
     })
@@ -71,20 +74,24 @@ export const CommentProvider = ({ children }: CommentProviderProps) => {
 
   const deleteComment = async (id: string) => {
     // Simula chamada de API
-    return new Promise<void>((resolve, reject) => {
+    return new Promise<void>((resolve) => {
       setTimeout(() => {
-        const commentIndex = comments.findIndex((comment) => comment.id === id)
+        // const commentIndex = comments.findIndex((comment) => comment.id === id)
 
-        if (commentIndex === -1) {
-          reject(new Error("Comment not found"))
-          return
-        }
+        // if (commentIndex === -1) {
+        //   reject(new Error("Comment not found"))
+        //   return
+        // }
 
-        const updatedComments = comments.filter((comment) => comment.id !== id)
-        setComments(updatedComments)
+        // const updatedComments = comments.filter((comment) => comment.id !== id)
+        // setComments(updatedComments)
+        const useCase = makeDeleteCommentUseCase()
+        useCase.execute(id)
+        setComments((prevComments) => prevComments.filter((comment) => comment.id !== id))
         resolve()
       }, 500)
     })
+
   }
 
   return (

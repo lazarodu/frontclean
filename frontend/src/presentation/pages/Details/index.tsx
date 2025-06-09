@@ -6,6 +6,7 @@ import { useComment } from "../../hooks/useComment";
 import { useAuth } from "../../hooks/useAuth";
 import { CommentForm } from "../../components/CommentForm";
 import { CommentList } from "../../components/CommentList";
+import type { PostProps } from "../../../shared/types/PostType";
 
 export function Details() {
   const { id } = useParams<{ id: string }>()
@@ -15,14 +16,17 @@ export function Details() {
   const { comments, getCommentsByPost } = useComment()
   const { currentUser } = useAuth()
 
-  const [post, setPost] = useState(id ? getPost(id) : undefined)
+  const [post, setPost] = useState<PostProps | null>(null)
   const [postComments, setPostComments] = useState(id ? getCommentsByPost(id) : [])
 
   useEffect(() => {
-    if (id) {
-      setPost(getPost(id))
-      setPostComments(getCommentsByPost(id))
+    async function fetchData() {
+      if (id) {
+        setPost(await getPost(id))
+        setPostComments(getCommentsByPost(id))
+      }
     }
+    fetchData()
   }, [id, getPost, getCommentsByPost, comments])
 
   if (!post) {

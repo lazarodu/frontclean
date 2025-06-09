@@ -1,11 +1,11 @@
 import { createContext, useState, useEffect, type ReactNode } from "react"
 import type { PostProps } from "../../shared/types/PostType"
-import { mockPosts } from "../../infrastructure/mocks/PostMock"
+import { makeCreatePostUseCase, makeDeletePostUseCase, makeGetAllPostsUseCase, makeGetPostByIdUseCase, makeUpdatePostUseCase } from "../../factories/makePostUseCases"
 
 interface PostContextType {
   posts: PostProps[]
   isLoading: boolean
-  getPost: (id: string) => PostProps | undefined
+  getPost: (id: string) => PostProps | null
   createPost: (post: Omit<PostProps, "id" | "data">) => Promise<PostProps>
   updatePost: (id: string, post: Partial<PostProps>) => Promise<PostProps>
   deletePost: (id: string) => Promise<void>
@@ -14,7 +14,7 @@ interface PostContextType {
 export const PostContext = createContext<PostContextType>({
   posts: [],
   isLoading: true,
-  getPost: () => undefined,
+  getPost: () => null,
   createPost: async () => ({ id: "", title: "", description: "", content: "", autor: "", data: "" }),
   updatePost: async () => ({ id: "", title: "", description: "", content: "", autor: "", data: "" }),
   deletePost: async () => { },
@@ -28,30 +28,44 @@ export const PostProvider = ({ children }: PostProviderProps) => {
   const [posts, setPosts] = useState<PostProps[]>([])
   const [isLoading, setIsLoading] = useState(true)
 
+  async function fetchPosts() {
+    const useCase = makeGetAllPostsUseCase()
+    const result = await useCase.execute()
+    setPosts(result)
+  }
+
   useEffect(() => {
     // Simula chamada de API
-    setTimeout(() => {
-      setPosts(mockPosts)
+    setTimeout(async () => {
+      await fetchPosts()
       setIsLoading(false)
     }, 500)
   }, [])
 
   const getPost = (id: string) => {
-    return posts.find((post) => post.id === id)
+    const useCase = makeGetPostByIdUseCase()
+    const result = useCase.execute(id)
+    return result
+    // return posts.find((post) => post.id === id)
   }
 
   const createPost = async (postData: Omit<PostProps, "id" | "data">) => {
     // Simula chamada de API
-    return new Promise<PostProps>((resolve) => {
-      setTimeout(() => {
-        const newPost: PostProps = {
-          id: `post-${Date.now()}`,
-          ...postData,
-          data: `${new Date().toLocaleDateString()}`,
+    return new Promise<PostProps>((resolve, reject) => {
+      setTimeout(async () => {
+        // const newPost: PostProps = {
+        //   id: `post-${Date.now()}`,
+        //   ...postData,
+        //   data: `${new Date().toLocaleDateString()}`,
+        // }
+        // setPosts((prevPosts) => [...prevPosts, newPost])
+        try {
+          const useCase = makeCreatePostUseCase()
+          const newPost = await useCase.execute(postData)
+          resolve(newPost)
+        } catch (e) {
+          reject(new Error(`Erro ao cadastrar o Post: ${e}`))
         }
-
-        setPosts((prevPosts) => [...prevPosts, newPost])
-        resolve(newPost)
       }, 500)
     })
   }
@@ -59,24 +73,32 @@ export const PostProvider = ({ children }: PostProviderProps) => {
   const updatePost = async (id: string, postData: Partial<PostProps>) => {
     // Simula chamada de API
     return new Promise<PostProps>((resolve, reject) => {
-      setTimeout(() => {
-        const postIndex = posts.findIndex((post) => post.id === id)
+      setTimeout(async () => {
+        // const postIndex = posts.findIndex((post) => post.id === id)
 
-        if (postIndex === -1) {
-          reject(new Error("Post not found"))
-          return
+        // if (postIndex === -1) {
+        //   reject(new Error("Post not found"))
+        //   return
+        // }
+
+        // const updatedPost = {
+        //   ...posts[postIndex],
+        //   ...postData,
+        // }
+
+        // const updatedPosts = [...posts]
+        // updatedPosts[Number(id)] = updatedPost
+
+        // setPosts(updatedPosts)
+        try {
+          const useCase = makeUpdatePostUseCase()
+          const updatedPost = await useCase.execute(id, postData)
+          await fetchPosts() // Recarrega posts após atualização
+          resolve(updatedPost)
+        } catch (e) {
+          reject(new Error(`Post não encontrado: ${e}`))
         }
 
-        const updatedPost = {
-          ...posts[postIndex],
-          ...postData,
-        }
-
-        const updatedPosts = [...posts]
-        updatedPosts[postIndex] = updatedPost
-
-        setPosts(updatedPosts)
-        resolve(updatedPost)
       }, 500)
     })
   }
@@ -84,17 +106,24 @@ export const PostProvider = ({ children }: PostProviderProps) => {
   const deletePost = async (id: string) => {
     // Simula chamada de API
     return new Promise<void>((resolve, reject) => {
-      setTimeout(() => {
-        const postIndex = posts.findIndex((post) => post.id === id)
+      setTimeout(async () => {
+        // const postIndex = posts.findIndex((post) => post.id === id)
 
-        if (postIndex === -1) {
-          reject(new Error("Post not found"))
-          return
+        // if (postIndex === -1) {
+        //   reject(new Error("Post not found"))
+        //   return
+        // }
+
+        // const updatedPosts = posts.filter((post) => post.id !== id)
+        // setPosts(updatedPosts)
+        try {
+          const useCase = makeDeletePostUseCase()
+          await useCase.execute(id)
+          await fetchPosts() // Recarrega posts após atualização
+          resolve()
+        } catch (e) {
+          reject(new Error(`Post não encontrado: ${e}`))
         }
-
-        const updatedPosts = posts.filter((post) => post.id !== id)
-        setPosts(updatedPosts)
-        resolve()
       }, 500)
     })
   }

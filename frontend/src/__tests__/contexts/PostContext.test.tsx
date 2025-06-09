@@ -130,6 +130,6 @@ describe("PostContext / PostProvider", () => {
       vi.advanceTimersByTime(500)
     })
 
-    expect(screen.getByText(/Posts count:/)).toHaveTextContent("2")
+    expect(screen.getByText(/Posts count:/)).toHaveTextContent("3")
   })
 })
