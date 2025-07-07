@@ -7,16 +7,16 @@ export const mockPosts: PostProps[] = [
     title: "Post 1",
     description: "Descrição do Post 1",
     content: "Conteúdo do Post 1",
-    autor: "Lázaro",
-    data: "12/05/2025",
+    user_id: "user-1",
+    date: "12/05/2025",
   },
   {
     id: "post-2",
     title: "Post 2",
     description: "Descrição do Post 2",
     content: "Conteúdo do Post 2",
-    autor: "Lázaro",
-    data: "11/05/2025",
+    user_id: "user-2",
+    date: "11/05/2025",
   },
 ];
 

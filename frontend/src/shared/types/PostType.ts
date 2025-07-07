@@ -3,8 +3,8 @@ export interface PostProps {
   title: string;
   description: string;
   content: string
-  autor: string;
-  data: string;
+  user_id: string;
+  date: string;
 }
 export interface PostListProps {
   posts: PostProps[];

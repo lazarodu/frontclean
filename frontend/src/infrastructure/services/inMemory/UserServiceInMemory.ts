@@ -1,8 +1,8 @@
-import type { User } from "../../domain/entities/User";
-import type { UserRepository } from "../../domain/repositories/UserRepository";
-import { Email } from "../../domain/value-objects/Email";
-import { Password } from "../../domain/value-objects/Password";
-import { mockUsers } from "../mocks/UserMock";
+import type { User } from "../../../domain/entities/User";
+import type { UserRepository } from "../../../domain/repositories/UserRepository";
+import { Email } from "../../../domain/value-objects/Email";
+import { Password } from "../../../domain/value-objects/Password";
+import { mockUsers } from "../../mocks/UserMock";
 
 export class UserServiceInMemory implements UserRepository {
   private currentUser: User | null = null;

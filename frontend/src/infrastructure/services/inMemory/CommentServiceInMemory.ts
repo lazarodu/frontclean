@@ -1,8 +1,8 @@
-import { type CommentRepository } from "../../domain/repositories/CommentRepository";
-import { Comment } from "../../domain/entities/Comment";
-import { mockComments } from "../mocks/CommentMock";
-import type { User } from "../../domain/entities/User";
-import { mockUsers } from "../mocks/UserMock";
+import { type CommentRepository } from "../../../domain/repositories/CommentRepository";
+import { Comment } from "../../../domain/entities/Comment";
+import { mockComments } from "../../mocks/CommentMock";
+import type { User } from "../../../domain/entities/User";
+import { mockUsers } from "../../mocks/UserMock";
 
 export class CommentServiceInMemory implements CommentRepository {
     private comments: Comment[] = [...mockComments];

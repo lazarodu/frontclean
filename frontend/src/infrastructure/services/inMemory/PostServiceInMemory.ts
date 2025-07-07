@@ -1,15 +1,15 @@
-import { type PostRepository } from "../../domain/repositories/PostRepository";
-import { Post } from "../../domain/entities/Post";
-import { mockPosts } from "../mocks/PostMock";
+import { type PostRepository } from "../../../domain/repositories/PostRepository";
+import { Post } from "../../../domain/entities/Post";
+import { mockPosts } from "../../mocks/PostMock";
 
 export class PostServiceInMemory implements PostRepository {
   private posts: Post[] = [...mockPosts];
 
-  getAll(): Post[] {
+  async getAll(): Promise<Post[]> {
     return this.posts;
   }
 
-  getById(id: string): Post | null {
+  async getById(id: string): Promise<Post | null> {
     return this.posts.find((p) => p.id === id) ?? null;
   }
 
@@ -19,7 +19,7 @@ export class PostServiceInMemory implements PostRepository {
       data.title,
       data.description,
       data.content,
-      data.autor,
+      data.user_id,
       new Date().toLocaleDateString()
     );
     this.posts.push(newPost);
