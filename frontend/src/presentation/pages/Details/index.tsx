@@ -7,6 +7,7 @@ import { useAuth } from "../../hooks/useAuth";
 import { CommentForm } from "../../components/CommentForm";
 import { CommentList } from "../../components/CommentList";
 import type { PostProps } from "../../../shared/types/PostType";
+import type { CommentProps } from "../../../shared/types/CommentType";
 
 export function Details() {
   const { id } = useParams<{ id: string }>()
@@ -17,13 +18,13 @@ export function Details() {
   const { currentUser } = useAuth()
 
   const [post, setPost] = useState<PostProps | null>(null)
-  const [postComments, setPostComments] = useState(id ? getCommentsByPost(id) : [])
+  const [postComments, setPostComments] = useState<CommentProps[] | null>(null)
 
   useEffect(() => {
     async function fetchData() {
       if (id) {
         setPost(await getPost(id))
-        setPostComments(getCommentsByPost(id))
+        setPostComments(await getCommentsByPost(id))
       }
     }
     fetchData()
@@ -38,9 +39,9 @@ export function Details() {
     )
   }
 
-  const handleCommentAdded = () => {
+  const handleCommentAdded = async () => {
     if (id) {
-      setPostComments(getCommentsByPost(id))
+      setPostComments(await getCommentsByPost(id))
     }
   }
 
@@ -50,11 +51,11 @@ export function Details() {
         title={post.title}
         description={post.description}
         content={post.content}
-        autor={post.autor}
-        data={post.data}
+        autor={post.user?.name || "Desconhecido"}
+        data={post.date}
       />
-      {currentUser && <CommentForm postId={post.id} onSubmit={handleCommentAdded} />}
-      <CommentList comments={postComments} />
+      {currentUser && <CommentForm post_id={post.id} onSubmit={handleCommentAdded} />}
+      {postComments && <CommentList comments={postComments} />}
     </>
   );
 }

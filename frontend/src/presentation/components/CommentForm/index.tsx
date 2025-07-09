@@ -1,31 +1,26 @@
 import { useState, type FormEvent } from "react";
 import { SForm } from "./styles";
 import { useComment } from "../../hooks/useComment";
-import { useAuth } from "../../hooks/useAuth";
 
 interface CommentFormProps {
-  postId: string
+  post_id: string
   onSubmit: (post: { comment: string }) => void;
 }
 
-export function CommentForm({ postId, onSubmit }: CommentFormProps) {
+export function CommentForm({ post_id, onSubmit }: CommentFormProps) {
   const [comment, setComment] = useState("");
   const { addComment } = useComment()
-  const { currentUser } = useAuth()
   const [isLoading, setIsLoading] = useState(false)
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
-    if (!currentUser || !comment.trim()) return
-
     setIsLoading(true)
     try {
       await addComment({
-        postId,
-        userId: currentUser!.id,
-        autor: currentUser!.name,
+        post_id,
         comment: comment.trim(),
+        date: new Date().toISOString(),
       })
 
       setComment("")

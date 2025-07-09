@@ -5,18 +5,18 @@ import { makeAddCommentUseCase, makeDeleteCommentUseCase, makeGetCommentsByPostU
 interface CommentContextType {
   comments: CommentProps[]
   isLoading: boolean
-  getCommentsByPost: (postId: string) => CommentProps[]
-  getCommentsByUser: (userId: string) => CommentProps[]
-  addComment: (comment: Omit<CommentProps, "id" | "data">) => Promise<CommentProps>
+  getCommentsByPost: (post_id: string) => Promise<CommentProps[]>
+  getCommentsByUser: (userId: string) => Promise<CommentProps[]>
+  addComment: (comment: Omit<CommentProps, "id" | "userId">) => Promise<CommentProps>
   deleteComment: (id: string) => Promise<void>
 }
 
 export const CommentContext = createContext<CommentContextType>({
   comments: [],
   isLoading: true,
-  getCommentsByPost: () => [],
-  getCommentsByUser: () => [],
-  addComment: async () => ({ id: "", postId: "", userId: "", comment: "", data: `${new Date()}` }),
+  getCommentsByPost: async () => [],
+  getCommentsByUser: async () => [],
+  addComment: async () => ({ id: "", post_id: "", comment: "", date: `${new Date()}` }),
   deleteComment: async () => { },
 })
 
@@ -36,24 +36,24 @@ export const CommentProvider = ({ children }: CommentProviderProps) => {
     }, 500)
   }, [])
 
-  const getCommentsByPost = (postId: string) => {
-    // return comments.filter((comment) => comment.postId === postId).map((p) => ({
+  const getCommentsByPost = async (post_id: string) => {
+    // return comments.filter((comment) => comment.post_id === post_id).map((p) => ({
     //   ...p,
     //   autor: users.filter(u => u.id === p.userId)[0].name
     // }))
     const useCase = makeGetCommentsByPostUseCase()
-    const result = useCase.execute(postId)
+    const result = await useCase.execute(post_id)
     return result
   }
 
-  const getCommentsByUser = (userId: string) => {
+  const getCommentsByUser = async (userId: string) => {
     // return comments.filter((comment) => comment.userId === userId)
     const useCase = makeGetCommentsByUserUseCase()
-    const result = useCase.execute(userId)
+    const result = await useCase.execute(userId)
     return result
   }
 
-  const addComment = async (commentData: Omit<CommentProps, "id" | "data">) => {
+  const addComment = async (commentData: Omit<CommentProps, "id" | "userId" | "date">) => {
     // Simula chamada de API
     return new Promise<CommentProps>((resolve) => {
       setTimeout(async () => {

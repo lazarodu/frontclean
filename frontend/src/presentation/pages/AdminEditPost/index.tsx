@@ -10,30 +10,40 @@ import { BackButton, Container, NotFound, NotFoundMessage, NotFoundTitle, Title 
 
 export const AdminEditPostPage = () => {
   const { id } = useParams<{ id: string }>()
+  const [isLoading, setIsLoading] = useState(false)
   const navigate = useNavigate()
 
   const { getPost, updatePost } = usePost()
 
-  const [post, setPost] = useState(id ? getPost(id) : undefined)
+  const [post, setPost] = useState<PostProps | null>(null)
 
   useEffect(() => {
-    if (id) {
-      setPost(getPost(id))
+    async function fetchPost() {
+      setIsLoading(true)
+      if (id) {
+        setPost(await getPost(id))
+      }
+      setIsLoading(false)
     }
+    fetchPost()
   }, [id, getPost])
 
-  const handleSubmit = async (postData: Omit<PostProps, "id" | "data" | "autor">) => {
+  const handleSubmit = async (postData: Omit<PostProps, "id" | "date">) => {
     if (!id) return
-
-
     try {
+      setIsLoading(true)
       await updatePost(id, postData)
       navigate("/admin/posts")
     } catch (error) {
       console.error("Falha ao atualizar o post:", error)
+    } finally {
+      setIsLoading(false)
     }
   }
 
+  if (isLoading) {
+    return <p>Carregando...</p>
+  }
   if (!post) {
     return (
       <>

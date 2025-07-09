@@ -52,7 +52,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
           const useCase = makeLoginUserUseCase()
           const user = await useCase.execute(new Email(email), new Password(password))
-
           const setUser = { id: user.id, name: user.name, email: user.email, role: user.role }
           setCurrentUser(setUser)
           localStorage.setItem("currentUser", JSON.stringify({ ...setUser }))

@@ -9,7 +9,7 @@ export class PostServiceHttp implements PostRepository {
     try {
       const res = await api.get("/posts");
       return res.data.map((p: Post) =>
-        new Post(p.id, p.title, p.description, p.content, p.user_id, p.date)
+        new Post(p.id, p.title, p.description, p.content, p.user_id, p.date, p.user)
       );
     } catch (err) {
       throw parseApiError(err);
@@ -20,18 +20,18 @@ export class PostServiceHttp implements PostRepository {
     try {
       const res = await api.get(`/posts/${id}`);
       const p = res.data;
-      return new Post(p.id, p.title, p.description, p.content, p.user_id, p.date);
+      return new Post(p.id, p.title, p.description, p.content, p.user_id, p.date, p.user);
     } catch (err) {
       if ((err as AxiosError).response?.status === 404) return null;
       throw parseApiError(err);
     }
   }
 
-  async create(data: Omit<Post, "id" | "date">): Promise<Post> {
+  async create(data: Omit<Post, "id" | "user_id" | "date">): Promise<Post> {
     try {
-      const res = await api.post("/posts", data);
+      const res = await api.post("/posts", { ...data, date: new Date().toISOString() });
       const p = res.data;
-      return new Post(p.id, p.title, p.description, p.content, p.user_id, p.date);
+      return new Post(p.id, p.title, p.description, p.content, p.user_id, p.date, p.user);
     } catch (err) {
       throw parseApiError(err);
     }
@@ -41,7 +41,7 @@ export class PostServiceHttp implements PostRepository {
     try {
       const res = await api.put(`/posts/${id}`, data);
       const p = res.data;
-      return new Post(p.id, p.title, p.description, p.content, p.user_id, p.date);
+      return new Post(p.id, p.title, p.description, p.content, p.user_id, p.date, p.user);
     } catch (err) {
       throw parseApiError(err);
     }

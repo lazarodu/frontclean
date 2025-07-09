@@ -1,10 +1,9 @@
 export interface CommentProps {
   id: string
-  postId: string
-  userId: string
+  post_id: string
+  userId?: string
   comment: string
-  autor?: string
-  data: string
+  date: string
 }
 
 export interface CommentListProps {

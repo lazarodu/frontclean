@@ -40,8 +40,8 @@ export const AdminPostPage = () => {
               {posts.map((post) => (
                 <tr key={post.id}>
                   <Td>{post.title}</Td>
-                  <Td>{post.autor}</Td>
-                  <Td>{post.data}</Td>
+                  <Td>{post.user?.name}</Td>
+                  <Td>{post.date}</Td>
                   <Td>
                     <ActionButtons>
                       <EditButton to={`/admin/posts/edit/${post.id}`}>Edit</EditButton>

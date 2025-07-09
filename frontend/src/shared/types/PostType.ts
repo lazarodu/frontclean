@@ -3,7 +3,12 @@ export interface PostProps {
   title: string;
   description: string;
   content: string
-  user_id: string;
+  user?: {
+    id: string;
+    name: string;
+    email: string;
+    role: string;
+  };
   date: string;
 }
 export interface PostListProps {

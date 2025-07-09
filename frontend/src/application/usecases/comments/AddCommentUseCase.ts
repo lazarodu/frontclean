@@ -8,7 +8,7 @@ export class AddCommentUseCase {
         this.repo = repo;
     }
 
-    async execute(data: Omit<Comment, "id" | "data">): Promise<Comment> {
+    async execute(data: Omit<Comment, "id" | "userId" | "date">): Promise<Comment> {
         return this.repo.addComment(data);
     }
 }

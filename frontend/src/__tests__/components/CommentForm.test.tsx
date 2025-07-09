@@ -21,7 +21,7 @@ describe("CommentForm", () => {
   it("deve exibir o comentário", async () => {
     const onSubmitMock = vi.fn();
     const user = userEvent.setup();
-    render(<CommentForm postId="post-1" onSubmit={onSubmitMock} />);
+    render(<CommentForm post_id="post-1" onSubmit={onSubmitMock} />);
     expect(screen.queryByPlaceholderText(/Escreva um comentário.../i)).toBeInTheDocument()
     const commentInput = screen.getByLabelText("Comentário");
     const submit = screen.getByRole("button", { name: "Enviar" });

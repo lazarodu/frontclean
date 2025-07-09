@@ -3,8 +3,15 @@ import { RouteWeb } from "./presentation/routes";
 import { AuthProvider } from "./presentation/contexts/AuthContext";
 import { PostProvider } from "./presentation/contexts/PostContext";
 import { CommentProvider } from "./presentation/contexts/CommentContext";
+import { useNavigate } from "react-router-dom";
+import { setupInterceptors } from "./infrastructure/http/interceptors";
 
 export function App() {
+  const navigate = useNavigate();
+  setupInterceptors(() => {
+    navigate("/login");
+  });
+
   return (
     <AuthProvider>
       <GlobalStyle />

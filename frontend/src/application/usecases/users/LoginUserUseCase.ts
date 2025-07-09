@@ -10,6 +10,7 @@ export class LoginUserUseCase {
   }
 
   async execute(email: Email, password: Password) {
-    return await this.loginService.login(email.getValue(), password.getValue());
+    const response = await this.loginService.login(email.getValue(), password.getValue());
+    return response
   }
 }

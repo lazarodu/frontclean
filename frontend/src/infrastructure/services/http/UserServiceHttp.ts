@@ -9,8 +9,10 @@ export class UserServiceHttp implements UserRepository {
 
   async login(email: string, password: string): Promise<User> {
     try {
-      const response = await api.post("/users/login", { email, password });
-      console.log(response.data)
+      const token = await api.post("/users/login", { email, password });
+      localStorage.setItem("token", token.data.access_token);
+      const response = await api.get("/users/me");
+
       const user = new User(
         response.data.id,
         response.data.name,
@@ -28,7 +30,6 @@ export class UserServiceHttp implements UserRepository {
   async register(name: string, email: string, password: string): Promise<User> {
     try {
       const response = await api.post("/users/register", { name, email, password, role: 'user' });
-      console.log(response.data)
       return new User(
         response.data.id,
         response.data.name,
@@ -41,6 +42,9 @@ export class UserServiceHttp implements UserRepository {
   }
 
   logout(): void {
+    localStorage.removeItem("token");
+    localStorage.removeItem("currentUser");
+    api.defaults.headers.common["Authorization"] = "";
     this.currentUser = null;
   }
 

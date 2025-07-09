@@ -10,7 +10,7 @@ export class CommentServiceHttp implements CommentRepository {
     try {
       const res = await api.post("/comments", data);
       const c = res.data;
-      const comment = new Comment(c.id, c.postId, c.userId, c.comment, c.date);
+      const comment = new Comment(c.id, c.post_id, c.userId, c.comment, c.date);
       this.allComments.push(comment);
       return comment;
     } catch (err) {
@@ -18,12 +18,22 @@ export class CommentServiceHttp implements CommentRepository {
     }
   }
 
-  getCommentsByPost(postId: string): Comment[] {
-    return this.allComments.filter((c) => c.postId === postId);
+  async getCommentsByPost(post_id: string): Promise<Comment[]> {
+    try {
+      const res = await api.get(`/comments/post/${post_id}`);
+      return res.data;
+    } catch (err) {
+      throw parseApiError(err);
+    }
   }
 
-  getCommentsByUser(userId: string): Comment[] {
-    return this.allComments.filter((c) => c.userId === userId);
+  async getCommentsByUser(): Promise<Comment[]> {
+    try {
+      const res = await api.get(`/comments/user/`);
+      return res.data;
+    } catch (err) {
+      throw parseApiError(err);
+    }
   }
 
   async deleteComment(id: string): Promise<void> {

@@ -8,7 +8,7 @@ export class GetPostByIdUseCase {
     this.repo = repo;
   }
 
-  execute(id: string): Post | null {
-    return this.repo.getById(id);
+  async execute(id: string): Promise<Post | null> {
+    return await this.repo.getById(id);
   }
 }

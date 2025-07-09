@@ -8,7 +8,7 @@ export class GetCommentsByPostUseCase {
         this.repo = repo;
     }
 
-    execute(postId: string): Comment[] {
-        return this.repo.getCommentsByPost(postId);
+    async execute(post_id: string): Promise<Comment[]> {
+        return await this.repo.getCommentsByPost(post_id);
     }
 }

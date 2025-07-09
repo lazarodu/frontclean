@@ -5,8 +5,8 @@ import { makeCreatePostUseCase, makeDeletePostUseCase, makeGetAllPostsUseCase, m
 interface PostContextType {
   posts: PostProps[]
   isLoading: boolean
-  getPost: (id: string) => PostProps | null
-  createPost: (post: Omit<PostProps, "id" | "data">) => Promise<PostProps>
+  getPost: (id: string) => Promise<PostProps | null>
+  createPost: (post: Omit<PostProps, "id" | "user_id" | "date">) => Promise<PostProps>
   updatePost: (id: string, post: Partial<PostProps>) => Promise<PostProps>
   deletePost: (id: string) => Promise<void>
 }
@@ -14,7 +14,7 @@ interface PostContextType {
 export const PostContext = createContext<PostContextType>({
   posts: [],
   isLoading: true,
-  getPost: () => null,
+  getPost: async () => null,
   createPost: async () => ({ id: "", title: "", description: "", content: "", user_id: "", date: "" }),
   updatePost: async () => ({ id: "", title: "", description: "", content: "", user_id: "", date: "" }),
   deletePost: async () => { },
@@ -42,14 +42,14 @@ export const PostProvider = ({ children }: PostProviderProps) => {
     }, 500)
   }, [])
 
-  const getPost = (id: string) => {
+  const getPost = async (id: string) => {
     const useCase = makeGetPostByIdUseCase()
-    const result = useCase.execute(id)
+    const result = await useCase.execute(id)
     return result
     // return posts.find((post) => post.id === id)
   }
 
-  const createPost = async (postData: Omit<PostProps, "id" | "data">) => {
+  const createPost = async (postData: Omit<PostProps, "id" | "user_id" | "date" | "user">) => {
     // Simula chamada de API
     return new Promise<PostProps>((resolve, reject) => {
       setTimeout(async () => {
@@ -62,6 +62,7 @@ export const PostProvider = ({ children }: PostProviderProps) => {
         try {
           const useCase = makeCreatePostUseCase()
           const newPost = await useCase.execute(postData)
+          await fetchPosts() // Recarrega posts após o cadastro
           resolve(newPost)
         } catch (e) {
           reject(new Error(`Erro ao cadastrar o Post: ${e}`))

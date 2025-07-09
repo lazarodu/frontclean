@@ -8,7 +8,7 @@ export class CreatePostUseCase {
     this.repo = repo;
   }
 
-  async execute(data: Omit<Post, "id" | "data">): Promise<Post> {
+  async execute(data: Omit<Post, "id" | "user_id" | "date" | "user">): Promise<Post> {
     return this.repo.create(data);
   }
 }

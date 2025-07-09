@@ -8,22 +8,22 @@ export class CommentServiceInMemory implements CommentRepository {
     private comments: Comment[] = [...mockComments];
     private users: User[] = [...mockUsers];
 
-    getCommentsByPost(postId: string): Comment[] {
-        // return this.comments.filter((c) => c.postId === postId);
-        return this.comments.filter((comment) => comment.postId === postId).map((p) => ({
+    async getCommentsByPost(post_id: string): Promise<Comment[]> {
+        // return this.comments.filter((c) => c.post_id === post_id);
+        return this.comments.filter((comment) => comment.post_id === post_id).map((p) => ({
             ...p,
             autor: this.users.filter(u => u.id === p.userId)[0].name
         }))
     }
 
-    getCommentsByUser(userId: string): Comment[] {
+    async getCommentsByUser(userId: string): Promise<Comment[]> {
         return this.comments.filter((c) => c.userId === userId);
     }
 
     async addComment(data: Omit<Comment, "id" | "date">): Promise<Comment> {
         const newComment = new Comment(
             `comment-${Date.now()}`,
-            data.postId,
+            data.post_id,
             data.userId,
             data.comment,
             new Date().toLocaleDateString()
