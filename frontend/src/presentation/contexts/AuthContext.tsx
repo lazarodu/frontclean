@@ -8,7 +8,7 @@ export interface AuthContextType {
   currentUser: UserProps | null
   isLoading: boolean
   login: (email: string, password: string) => Promise<void>
-  register: (name: string, email: string, password: string) => Promise<void>
+  register: (name: string, email: string, password: string) => Promise<string>
   logout: () => void
 }
 
@@ -16,7 +16,7 @@ export const AuthContext = createContext<AuthContextType>({
   currentUser: null,
   isLoading: true,
   login: async () => { },
-  register: async () => { },
+  register: async () => "",
   logout: () => { },
 })
 
@@ -66,27 +66,12 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const register = async (name: string, email: string, password: string) => {
     // Simula chamada de API
-    return new Promise<void>((resolve, reject) => {
+    return new Promise<string>((resolve, reject) => {
       setTimeout(async () => {
-        // const existingUser = mockUsers.find((u) => u.email.getValue() === email)
-        // if (existingUser) {
-        //   reject(new Error("Email already in use"))
-        // } else {
-        //   const newUser = {
-        //     id: `user-${Date.now()}`,
-        //     name,
-        //     email: new Email(email),
-        //     password: new Password(password),
-        //     role: "user" as const, // Define o tipo de role como 'user'
-        //   }
-        // Em um aplicativo real, você enviaria isso para uma API
-        // mockUsers.push(newUser)
-        // Remove password antes de armazenar
-        // const { password: _, ...userWithoutPassword } = newUser
         try {
           const useCase = makeRegisterUserUseCase()
-          await useCase.execute(name, new Email(email), new Password(password))
-          resolve()
+          const response = await useCase.execute(name, new Email(email), new Password(password))
+          resolve(response)
         } catch (e) {
           reject(new Error(`Erro ao registrar usuário: ${e}`))
         }

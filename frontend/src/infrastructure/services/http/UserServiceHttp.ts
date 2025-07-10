@@ -9,15 +9,14 @@ export class UserServiceHttp implements UserRepository {
 
   async login(email: string, password: string): Promise<User> {
     try {
-      const token = await api.post("/users/login", { email, password });
-      localStorage.setItem("token", token.data.access_token);
-      const response = await api.get("/users/me");
+      const response = await api.post("/users/login", { email, password });
+      localStorage.setItem("token", response.data.access_token);
 
       const user = new User(
-        response.data.id,
-        response.data.name,
-        new Email(response.data.email),
-        response.data.role
+        response.data.user.id,
+        response.data.user.name,
+        new Email(response.data.user.email),
+        response.data.user.role
       );
 
       this.currentUser = user;
@@ -27,15 +26,10 @@ export class UserServiceHttp implements UserRepository {
     }
   }
 
-  async register(name: string, email: string, password: string): Promise<User> {
+  async register(name: string, email: string, password: string): Promise<string> {
     try {
       const response = await api.post("/users/register", { name, email, password, role: 'user' });
-      return new User(
-        response.data.user.id,
-        response.data.user.name,
-        new Email(response.data.user.email),
-        response.data.user.role
-      );
+      return response.data.message;
     } catch (error) {
       throw parseApiError(error);
     }

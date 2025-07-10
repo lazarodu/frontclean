@@ -16,7 +16,7 @@ export class UserServiceInMemory implements UserRepository {
     return user;
   }
 
-  async register(name: string, email: string, password: string): Promise<User> {
+  async register(name: string, email: string, password: string): Promise<string> {
     const existingUserEmail = mockUsers.find((u) => u.email.getValue() === email)
     const existingUserName = mockUsers.find((u) => u.name === name)
     if (existingUserEmail) {
@@ -34,11 +34,12 @@ export class UserServiceInMemory implements UserRepository {
 
       mockUsers.push(newUser)
 
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { password: _, ...userWithoutPassword } = newUser
-      this.currentUser = newUser
-      localStorage.setItem("currentUser", JSON.stringify(userWithoutPassword))
-      return userWithoutPassword
+
+      // const { password: _, ...userWithoutPassword } = newUser
+      // this.currentUser = newUser
+      // localStorage.setItem("currentUser", JSON.stringify(userWithoutPassword))
+      // return userWithoutPassword
+      return "Usuário registrado com sucesso"
     }
   }
 

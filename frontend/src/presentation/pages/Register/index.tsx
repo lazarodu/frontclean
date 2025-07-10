@@ -2,6 +2,7 @@ import { useState, type FormEvent } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { useAuth } from "../../contexts/AuthContext"
 import { Button, Container, ErrorMessage, Form, FormGroup, Input, Label, LoginLink, Title } from "./styles"
+import { toast } from "react-toastify"
 
 export const RegisterPage = () => {
   const [name, setName] = useState("")
@@ -28,8 +29,9 @@ export const RegisterPage = () => {
     setError("")
 
     try {
-      await register(name, email, password)
-      navigate("/")
+      const response = await register(name, email, password)
+      toast.success(response)
+      navigate("/login")
     } catch (err) {
       setError(err instanceof Error ? err.message : "Falha ao registrar")
     } finally {

@@ -11,7 +11,7 @@ describe("useAuth Hook", () => {
       currentUser: { id: "1", name: "Test User", email: new Email("test@example.com"), role: "user" },
       isLoading: false,
       login: async () => { },
-      register: async () => { },
+      register: async () => "",
       logout: () => { },
     }
 
