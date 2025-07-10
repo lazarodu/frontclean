@@ -7,6 +7,7 @@ import { Container, Title } from "./styles"
 import { usePost } from "../../hooks/usePost"
 import { PostForm } from "../../components/PostForm"
 import { toast } from "react-toastify"
+import { format } from "date-fns"
 
 export const AdminCreatePostPage = () => {
   const { createPost } = usePost()
@@ -21,7 +22,7 @@ export const AdminCreatePostPage = () => {
     try {
       setIsLoading(true)
       await createPost({
-        ...postData
+        ...postData, date: format(new Date(), 'yyyy-MM-dd')
       })
       navigate("/admin/posts")
     } catch (error) {

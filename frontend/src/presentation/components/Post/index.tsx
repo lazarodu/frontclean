@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { SMain } from "./styles";
 import type { PostListProps } from "../../../shared/types/PostType";
+import { format, parseISO } from "date-fns";
 
 export function Post({ posts }: PostListProps) {
   return (
@@ -10,7 +11,7 @@ export function Post({ posts }: PostListProps) {
           <header>
             <h3>{post.title}</h3>
             <div>
-              <h5>{post.user?.name}</h5>, <h5>{new Intl.DateTimeFormat("pt-BR").format(new Date(post.date))}</h5>
+              <h5>{post.user?.name}</h5>, <h5>{post.date ? format(parseISO(post.date), "dd/MM/yyyy") : ""}</h5>
             </div>
           </header>
           <p>{post.description}</p>

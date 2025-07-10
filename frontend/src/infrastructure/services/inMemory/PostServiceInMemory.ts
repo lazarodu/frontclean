@@ -1,6 +1,7 @@
 import { type PostRepository } from "../../../domain/repositories/PostRepository";
 import { Post } from "../../../domain/entities/Post";
 import { MockDatabase } from "../../mocks/MockDatabase";
+import { format } from "date-fns";
 
 export class PostServiceInMemory implements PostRepository {
   // private posts: Post[] = [...mockPosts];
@@ -26,7 +27,7 @@ export class PostServiceInMemory implements PostRepository {
       data.description,
       data.content,
       data.user_id,
-      new Date()
+      format(new Date(), 'yyyy-MM-dd')
     );
     MockDatabase.posts.push(newPost);
     return newPost;

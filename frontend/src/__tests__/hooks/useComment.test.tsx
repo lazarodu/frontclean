@@ -10,7 +10,7 @@ describe("useComments Hook", () => {
       isLoading: false,
       getCommentsByPost: async () => [],
       getCommentsByUser: async () => [],
-      addComment: async () => ({ id: "", post_id: "", user_id: "", comment: "", date: new Date() }),
+      addComment: async () => ({ id: "", post_id: "", user_id: "", comment: "", date: "" }),
       deleteComment: async () => { },
     }
 

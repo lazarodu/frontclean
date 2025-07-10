@@ -3,6 +3,7 @@ import { CommentProvider, CommentContext } from "../../presentation/contexts/Com
 import { vi } from "vitest"
 import { useContext, useEffect, useState } from "react"
 import type { CommentProps } from "../../shared/types/CommentType"
+import { format } from "date-fns"
 
 vi.useFakeTimers()
 
@@ -20,7 +21,7 @@ const TestComponent = () => {
     await addComment({
       post_id: "1",
       comment: "Novo comentário",
-      date: new Date(),
+      date: format(new Date(), 'yyyy-MM-dd')
     })
   }
 

@@ -60,7 +60,7 @@ export const UserCommentsPage = () => {
       </>
     )
   }
-  console.log(userComments)
+
   return (
     <>
       <Container>

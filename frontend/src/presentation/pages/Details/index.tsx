@@ -8,6 +8,7 @@ import { CommentForm } from "../../components/CommentForm";
 import { CommentList } from "../../components/CommentList";
 import type { PostProps } from "../../../shared/types/PostType";
 import type { CommentProps } from "../../../shared/types/CommentType";
+import { format, parseISO } from "date-fns";
 
 export function Details() {
   const { id } = useParams<{ id: string }>()
@@ -52,7 +53,7 @@ export function Details() {
         description={post.description}
         content={post.content}
         autor={post.user?.name || "Desconhecido"}
-        data={new Intl.DateTimeFormat("pt-BR").format(new Date(post.date))}
+        data={post.date ? format(parseISO(post.date), "dd/MM/yyyy") : ""}
       />
       {currentUser && <CommentForm post_id={post.id} onSubmit={handleCommentAdded} />}
       {postComments && <CommentList comments={postComments} />}

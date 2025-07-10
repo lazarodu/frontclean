@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from "react";
 import { SForm } from "./styles";
 import { useComment } from "../../hooks/useComment";
+import { format } from "date-fns";
 
 interface CommentFormProps {
   post_id: string
@@ -20,7 +21,7 @@ export function CommentForm({ post_id, onSubmit }: CommentFormProps) {
       await addComment({
         post_id,
         comment: comment.trim(),
-        date: new Date(),
+        date: format(new Date(), 'yyyy-MM-dd')
       })
 
       setComment("")

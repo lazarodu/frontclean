@@ -2,6 +2,7 @@ import { type CommentRepository } from "../../../domain/repositories/CommentRepo
 import { Comment } from "../../../domain/entities/Comment";
 import { MockDatabase } from "../../mocks/MockDatabase"
 import { DataStorage } from "../http/DataStorage";
+import { format } from "date-fns";
 
 export class CommentServiceInMemory implements CommentRepository {
     // private comments: Comment[] = [...mockComments];
@@ -28,7 +29,7 @@ export class CommentServiceInMemory implements CommentRepository {
             data.post_id,
             user_id,
             data.comment,
-            new Date(),
+            format(new Date(), 'yyyy-MM-dd'),
             MockDatabase.users.find(u => u.id === user_id) ?? undefined
         );
         MockDatabase.comments.push(newComment);

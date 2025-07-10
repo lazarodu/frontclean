@@ -11,8 +11,8 @@ vi.mock("../../presentation/hooks/usePost", () => ({
 
 describe("AdminPostPage", () => {
   const mockPosts = [
-    { id: "1", title: "Post 1", autor: "Autor 1", data: new Date("2024-01-01") },
-    { id: "2", title: "Post 2", autor: "Autor 2", data: new Date("2024-01-02") },
+    { id: "1", title: "Post 1", autor: "Autor 1", data: "2024-01-01" },
+    { id: "2", title: "Post 2", autor: "Autor 2", data: "2024-01-02" },
   ]
 
   beforeEach(() => {

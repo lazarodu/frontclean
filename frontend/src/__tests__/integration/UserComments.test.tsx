@@ -20,8 +20,8 @@ vi.mock("../../presentation/hooks/usePost", () => ({
 describe("UserCommentsPage", () => {
   const mockUser = { id: "1", role: "user" }
   const mockComments = [
-    { id: "1", post_id: "101", user_id: "1", comment: "Comentário 1", data: new Date("2024-05-01") },
-    { id: "2", post_id: "102", user_id: "1", comment: "Comentário 2", data: new Date("2024-05-02") },
+    { id: "1", post_id: "101", user_id: "1", comment: "Comentário 1", data: "2024-05-01" },
+    { id: "2", post_id: "102", user_id: "1", comment: "Comentário 2", data: "2024-05-02" },
   ]
   const mockPosts = [
     { id: "101", title: "Postagem 1" },

@@ -14,7 +14,6 @@ export const AdminPostPage = () => {
       }
     }
   }
-
   return (
     <>
       <Container>

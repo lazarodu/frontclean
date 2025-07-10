@@ -6,7 +6,7 @@ interface PostContextType {
   posts: PostProps[]
   isLoading: boolean
   getPost: (id: string) => Promise<PostProps | null>
-  createPost: (post: Omit<PostProps, "id" | "user_id" | "date">) => Promise<PostProps>
+  createPost: (post: Omit<PostProps, "id" | "user_id">) => Promise<PostProps>
   updatePost: (id: string, post: Partial<PostProps>) => Promise<PostProps>
   deletePost: (id: string) => Promise<void>
 }
@@ -15,8 +15,8 @@ export const PostContext = createContext<PostContextType>({
   posts: [],
   isLoading: true,
   getPost: async () => null,
-  createPost: async () => ({ id: "", title: "", description: "", content: "", user_id: "", date: new Date() }),
-  updatePost: async () => ({ id: "", title: "", description: "", content: "", user_id: "", date: new Date() }),
+  createPost: async () => ({ id: "", title: "", description: "", content: "", user_id: "", date: "" }),
+  updatePost: async () => ({ id: "", title: "", description: "", content: "", user_id: "", date: "" }),
   deletePost: async () => { },
 })
 
@@ -49,7 +49,7 @@ export const PostProvider = ({ children }: PostProviderProps) => {
     // return posts.find((post) => post.id === id)
   }
 
-  const createPost = async (postData: Omit<PostProps, "id" | "user_id" | "date" | "user">) => {
+  const createPost = async (postData: Omit<PostProps, "id" | "user_id" | "user">) => {
     // Simula chamada de API
     return new Promise<PostProps>((resolve, reject) => {
       setTimeout(async () => {

@@ -16,7 +16,7 @@ export const CommentContext = createContext<CommentContextType>({
   isLoading: true,
   getCommentsByPost: async () => [],
   getCommentsByUser: async () => [],
-  addComment: async () => ({ id: "", post_id: "", comment: "", date: new Date() }),
+  addComment: async () => ({ id: "", post_id: "", comment: "", date: "" }),
   deleteComment: async () => { },
 })
 
