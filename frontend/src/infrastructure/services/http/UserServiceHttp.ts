@@ -3,6 +3,7 @@ import { User } from "../../../domain/entities/User";
 import { Email } from "../../../domain/value-objects/Email";
 import { api } from "../../http/axios";
 import { parseApiError } from "../../http/apiError";
+import { DataStorage } from "./DataStorage";
 
 export class UserServiceHttp implements UserRepository {
   private currentUser: User | null = null;
@@ -10,7 +11,8 @@ export class UserServiceHttp implements UserRepository {
   async login(email: string, password: string): Promise<User> {
     try {
       const response = await api.post("/users/login", { email, password });
-      localStorage.setItem("token", response.data.access_token);
+      // localStorage.setItem("token", response.data.access_token);
+      DataStorage.set("token", response.data.access_token);
 
       const user = new User(
         response.data.user.id,
@@ -36,8 +38,9 @@ export class UserServiceHttp implements UserRepository {
   }
 
   logout(): void {
-    localStorage.removeItem("token");
-    localStorage.removeItem("currentUser");
+    // localStorage.removeItem("token");
+    // localStorage.removeItem("currentUser");
+    DataStorage.clear();
     api.defaults.headers.common["Authorization"] = "";
     this.currentUser = null;
   }

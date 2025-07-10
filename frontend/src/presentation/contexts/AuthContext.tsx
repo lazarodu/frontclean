@@ -3,6 +3,7 @@ import type { UserProps } from "../../shared/types/UserType"
 import { Email } from "../../domain/value-objects/Email"
 import { Password } from "../../domain/value-objects/Password"
 import { makeLoginUserUseCase, makeLogoutUserUseCase, makeRegisterUserUseCase, makeSetCurrentUserUseCase } from "../../factories/makeUserUseCases"
+import { DataStorage } from "../../infrastructure/services/http/DataStorage"
 
 export interface AuthContextType {
   currentUser: UserProps | null
@@ -31,9 +32,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   useEffect(() => {
     // Simula chamada de API
     setTimeout(async () => {
-      const storedUser = localStorage.getItem("currentUser")
-      if (storedUser) {
-        const userStore = JSON.parse(storedUser)
+      // const storedUser = localStorage.getItem("currentUser")
+      const userStore = DataStorage.get("currentUser")
+      if (userStore) {
         setCurrentUser(userStore)
         const useCase = makeSetCurrentUserUseCase()
         await useCase.execute(userStore)
@@ -54,7 +55,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
           const user = await useCase.execute(new Email(email), new Password(password))
           const setUser = { id: user.id, name: user.name, email: user.email, role: user.role }
           setCurrentUser(setUser)
-          localStorage.setItem("currentUser", JSON.stringify({ ...setUser }))
+          // localStorage.setItem("currentUser", JSON.stringify({ ...setUser }))
+          DataStorage.set("currentUser", setUser)
           resolve()
         } catch (e) {
           reject(new Error(`E-mail ou senha inválidos: ${e}`))

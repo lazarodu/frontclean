@@ -8,7 +8,7 @@ export const mockPosts: PostProps[] = [
     description: "Descrição do Post 1",
     content: "Conteúdo do Post 1",
     user_id: "user-1",
-    date: new Date("12/05/2025"),
+    date: new Date("2025-05-12"),
   },
   {
     id: "post-2",
@@ -16,7 +16,7 @@ export const mockPosts: PostProps[] = [
     description: "Descrição do Post 2",
     content: "Conteúdo do Post 2",
     user_id: "user-2",
-    date: new Date("11/05/2025"),
+    date: new Date("2025-05-11"),
   },
 ];
 

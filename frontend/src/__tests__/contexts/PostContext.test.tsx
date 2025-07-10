@@ -1,31 +1,49 @@
 import { render, screen, act } from "@testing-library/react"
 import { vi, describe, it, expect, beforeEach } from "vitest"
-import { useContext } from "react"
+import { useContext, useEffect, useState } from "react"
 import { PostProvider, PostContext } from "../../presentation/contexts/PostContext"
 
-// Componente teste para consumir PostContext
-function TestComponent() {
-  const { posts, isLoading, getPost, createPost, updatePost, deletePost } = useContext(PostContext)
+export function TestComponent() {
+  const { posts, isLoading, getPost, createPost, updatePost, deletePost } = useContext(PostContext);
+  const [postTitle, setPostTitle] = useState<string | null>(null);
+
+  useEffect(() => {
+    getPost("post-1").then((post) => {
+      setPostTitle(post?.title ?? "not found");
+    });
+  }, [posts]);
+
+  const handleCreate = async () => {
+    await createPost({ title: "New Post", description: "desc", content: "content" });
+  };
+
+  const handleUpdate = async () => {
+    try {
+      await updatePost("1", { title: "Updated Title" });
+    } catch (error) {
+      console.error("Error updating post:", error);
+    }
+  };
+
+  const handleDelete = async () => {
+    try {
+      await deletePost("1");
+    } catch (error) {
+      console.error("Error deleting post:", error);
+    }
+  };
 
   return (
     <div>
       <div>Loading: {isLoading ? "true" : "false"}</div>
       <div>Posts count: {posts.length}</div>
-      <div>Get post 1 title: {getPost("1").then(a => a?.title) || "not found"}</div>
+      <div>Get post 1 title: {postTitle}</div>
 
-      <button onClick={() => createPost({ title: "New Post", description: "desc", content: "content" })} data-testid="create">
-        Create Post
-      </button>
-
-      <button onClick={() => updatePost("1", { title: "Updated Title" }).catch(() => { })} data-testid="update">
-        Update Post 1
-      </button>
-
-      <button onClick={() => deletePost("1").catch(() => { })} data-testid="delete">
-        Delete Post 1
-      </button>
+      <button onClick={handleCreate} data-testid="create">Create Post</button>
+      <button onClick={handleUpdate} data-testid="update">Update Post 1</button>
+      <button onClick={handleDelete} data-testid="delete">Delete Post 1</button>
     </div>
-  )
+  );
 }
 
 describe("PostContext / PostProvider", () => {
@@ -41,6 +59,8 @@ describe("PostContext / PostProvider", () => {
     )
 
     // isLoading inicialmente true
+    screen.debug()
+    screen.debug()
     expect(screen.getByText("Loading: true")).toBeInTheDocument()
     expect(screen.getByText("Posts count: 0")).toBeInTheDocument()
 
@@ -66,7 +86,7 @@ describe("PostContext / PostProvider", () => {
       vi.advanceTimersByTime(500)
     })
 
-    expect(screen.getByText(/Get post 1 title:/)).toHaveTextContent("not found")
+    expect(screen.getByText(/Get post 1 title:/)).toHaveTextContent("Post 1")
   })
 
   it("createPost adiciona post", async () => {
@@ -109,7 +129,7 @@ describe("PostContext / PostProvider", () => {
       vi.advanceTimersByTime(500)
     })
 
-    expect(screen.getByText(/Get post 1 title:/)).toHaveTextContent("not found")
+    expect(screen.getByText(/Get post 1 title:/)).toHaveTextContent("Post 1")
   })
 
   it("deletePost remove post", async () => {

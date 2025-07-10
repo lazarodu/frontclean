@@ -17,10 +17,10 @@ export function Login() {
 
     if (!email || !password) return
 
-    setIsLoading(true)
     setError("")
 
     try {
+      setIsLoading(true)
       await login(email, password)
       navigate("/")
     } catch (err) {

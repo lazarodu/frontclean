@@ -8,7 +8,7 @@ describe("PostDetails", () => {
         description="Minha Descrição"
         content=""
         autor="Lázaro"
-        data="12/05/2025"
+        data={new Intl.DateTimeFormat("pt-BR").format(new Date("2025-05-12"))}
       />
     );
     expect(screen.getByText("Meu Post")).toBeInTheDocument();

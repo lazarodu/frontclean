@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react"
+import { render, screen, waitFor } from "@testing-library/react"
 import userEvent from "@testing-library/user-event"
 import { vi, type Mock } from "vitest"
 import { AdminEditPostPage } from "../../presentation/pages/AdminEditPost"
@@ -60,9 +60,9 @@ describe("AdminEditPostPage", () => {
     updatePostMock.mockResolvedValue(undefined)
 
     render(<AdminEditPostPage />)
-
-    expect(screen.getByText("Form mock - title: My Post")).toBeInTheDocument()
-
+    await waitFor(() => {
+      expect(screen.getByText("Form mock - title: My Post")).toBeInTheDocument()
+    })
     await user.click(screen.getByText("Submit"))
 
     expect(updatePostMock).toHaveBeenCalledWith("1", { title: "Updated Title", description: "Updated Description", content: "Updated content" })
@@ -76,10 +76,10 @@ describe("AdminEditPostPage", () => {
     getPostMock.mockReturnValue(undefined) // Post não encontrado
 
     render(<AdminEditPostPage />)
-
-    expect(screen.getByText("Post não encontrado")).toBeInTheDocument()
-    expect(screen.getByText("A postagem que você está tentando editar não existe ou foi removido.")).toBeInTheDocument()
-
+    await waitFor(() => {
+      expect(screen.getByText("Post não encontrado")).toBeInTheDocument()
+      expect(screen.getByText("A postagem que você está tentando editar não existe ou foi removido.")).toBeInTheDocument()
+    })
     await user.click(screen.getByText("Voltar aos Posts"))
 
     expect(navigateMock).toHaveBeenCalledWith("/admin/posts")

@@ -72,7 +72,7 @@ export const UserCommentsPage = () => {
             <CommentItem key={comment.id}>
               <CommentHeader>
                 <PostTitle>{comment.postTitle}</PostTitle>
-                <CommentDate>{new Intl.DateTimeFormat("pt-BR").format(new Date(comment.date))}</CommentDate>
+                <CommentDate>{new Intl.DateTimeFormat("pt-BR").format(comment.date)}</CommentDate>
               </CommentHeader>
               <CommentContent>{comment.comment}</CommentContent>
               <DeleteButton onClick={() => handleDeleteComment(comment.id)}>Apagar</DeleteButton>

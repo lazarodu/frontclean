@@ -1,39 +1,41 @@
 import { type CommentRepository } from "../../../domain/repositories/CommentRepository";
 import { Comment } from "../../../domain/entities/Comment";
-import { mockComments } from "../../mocks/CommentMock";
-import type { User } from "../../../domain/entities/User";
-import { mockUsers } from "../../mocks/UserMock";
+import { MockDatabase } from "../../mocks/MockDatabase"
+import { DataStorage } from "../http/DataStorage";
 
 export class CommentServiceInMemory implements CommentRepository {
-    private comments: Comment[] = [...mockComments];
-    private users: User[] = [...mockUsers];
+    // private comments: Comment[] = [...mockComments];
+    // private users: User[] = [...mockUsers];
 
     async getCommentsByPost(post_id: string): Promise<Comment[]> {
-        // return this.comments.filter((c) => c.post_id === post_id);
-        return this.comments.filter((comment) => comment.post_id === post_id).map((p) => ({
+        return MockDatabase.comments.filter((comment) => comment.post_id === post_id).map((p) => ({
             ...p,
-            autor: this.users.filter(u => u.id === p.user_id)[0].name
+            user: MockDatabase.users.filter(u => u.id === p.user_id)[0]
         }))
     }
 
     async getCommentsByUser(): Promise<Comment[]> {
-        const user = JSON.parse(localStorage.getItem("currentUser") ?? "")
-        return this.comments.filter((c) => c.user_id === user.id);
+        // const user = JSON.parse(localStorage.getItem("currentUser") ?? "")
+        const user = DataStorage.get("currentUser") ?? "";
+        return MockDatabase.comments.filter((c) => c.user_id === user.id);
     }
 
     async addComment(data: Omit<Comment, "id" | "date">): Promise<Comment> {
+        // const user_id = JSON.parse(localStorage.getItem("currentUser") ?? "").id;
+        const user_id = DataStorage.get("currentUser")?.id ?? "";
         const newComment = new Comment(
             `comment-${Date.now()}`,
             data.post_id,
-            data.user_id,
+            user_id,
             data.comment,
-            new Date()
+            new Date(),
+            MockDatabase.users.find(u => u.id === user_id) ?? undefined
         );
-        this.comments.push(newComment);
+        MockDatabase.comments.push(newComment);
         return newComment;
     }
 
     async deleteComment(id: string): Promise<void> {
-        this.comments = this.comments.filter((c) => c.id !== id);
+        MockDatabase.comments = MockDatabase.comments.filter((c) => c.id !== id);
     }
 }

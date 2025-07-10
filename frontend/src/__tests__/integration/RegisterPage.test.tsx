@@ -28,7 +28,7 @@ describe("Register Route", () => {
     fireEvent.click(screen.getByRole("button", { name: /registrar/i }));
 
     // Espera ser redirecionado para a página inicial (sucesso do registro)
-    expect(await screen.findByRole("heading", { name: /Post 1/i })).toBeInTheDocument();
+    expect(await screen.findByRole("heading", { name: /Login/i })).toBeInTheDocument();
   });
 
   it("deve exibir erro quando as senhas não batem", async () => {

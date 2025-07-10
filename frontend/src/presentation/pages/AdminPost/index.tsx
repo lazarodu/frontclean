@@ -41,7 +41,7 @@ export const AdminPostPage = () => {
                 <tr key={post.id}>
                   <Td>{post.title}</Td>
                   <Td>{post.user?.name}</Td>
-                  <Td>{new Intl.DateTimeFormat("pt-BR").format(new Date(post.date))}</Td>
+                  <Td>{new Intl.DateTimeFormat("pt-BR").format(post.date)}</Td>
                   <Td>
                     <ActionButtons>
                       <EditButton to={`/admin/posts/edit/${post.id}`}>Edit</EditButton>
