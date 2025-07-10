@@ -24,7 +24,7 @@ export function Login() {
       await login(email, password)
       navigate("/")
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Falha no login")
+      setError(`Falha no login: ${err}`)
     } finally {
       setIsLoading(false)
     }
