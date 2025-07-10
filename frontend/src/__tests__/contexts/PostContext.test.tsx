@@ -14,7 +14,7 @@ export function TestComponent() {
   }, [posts]);
 
   const handleCreate = async () => {
-    await createPost({ title: "New Post", description: "desc", content: "content" });
+    await createPost({ title: "New Post", description: "desc", content: "content", date: "" });
   };
 
   const handleUpdate = async () => {
