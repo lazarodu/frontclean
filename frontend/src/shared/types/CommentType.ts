@@ -1,3 +1,5 @@
+import type { Email } from "../../domain/value-objects/Email"
+
 export interface CommentProps {
   id: string
   post_id: string
@@ -7,8 +9,8 @@ export interface CommentProps {
   user?: {
     id: string;
     name: string;
-    email: string;
-    role: string;
+    email: Email;
+    role: 'user' | 'admin';
   };
 }
 
