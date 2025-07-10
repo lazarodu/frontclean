@@ -85,10 +85,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         // const { password: _, ...userWithoutPassword } = newUser
         try {
           const useCase = makeRegisterUserUseCase()
-          const newUser = await useCase.execute(name, new Email(email), new Password(password))
-
-          setCurrentUser(newUser)
-          localStorage.setItem("currentUser", JSON.stringify(newUser))
+          await useCase.execute(name, new Email(email), new Password(password))
           resolve()
         } catch (e) {
           reject(new Error(`Erro ao registrar usuário: ${e}`))

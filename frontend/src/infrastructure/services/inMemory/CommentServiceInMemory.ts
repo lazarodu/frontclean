@@ -16,8 +16,9 @@ export class CommentServiceInMemory implements CommentRepository {
         }))
     }
 
-    async getCommentsByUser(userId: string): Promise<Comment[]> {
-        return this.comments.filter((c) => c.userId === userId);
+    async getCommentsByUser(): Promise<Comment[]> {
+        const user = JSON.parse(localStorage.getItem("currentUser") ?? "")
+        return this.comments.filter((c) => c.userId === user.id);
     }
 
     async addComment(data: Omit<Comment, "id" | "date">): Promise<Comment> {

@@ -33,19 +33,19 @@ export function PostForm({ initialData, onSubmit
         <SForm method="post" onSubmit={handleSubmit}>
             <div>
                 <label htmlFor="title">Título</label>
-                <input type="text" name="title" id="title" value={title}
+                <input type="text" name="title" id="title" value={title} minLength={3}
                     onChange={(e) => setTitle(e.target.value)}
                 />
             </div>
             <div>
                 <label htmlFor="description">Descrição</label>
-                <input type="text" name="description" id="description" value={description}
+                <input type="text" name="description" id="description" value={description} minLength={10}
                     onChange={(e) => setDescription(e.target.value)}
                 />
             </div>
             <div>
                 <label htmlFor="content">Conteúdo</label>
-                <textarea name="content" id="content" value={content}
+                <textarea name="content" id="content" value={content} minLength={20}
                     onChange={(e) => setContent(e.target.value)}
                 ></textarea>
             </div>

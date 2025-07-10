@@ -8,7 +8,7 @@ export function CommentList({ comments }: CommentListProps) {
         <aside key={comment.id}>
           <h5>{comment.comment}</h5>
           <div>
-            <h6>{comment.autor}</h6>, <h6>{comment.data}</h6>
+            <h6>{comment.user?.name}</h6>, <h6>{new Intl.DateTimeFormat("pt-BR").format(new Date(comment.date))}</h6>
           </div>
         </aside>
       ))}

@@ -3,7 +3,13 @@ export interface CommentProps {
   post_id: string
   userId?: string
   comment: string
-  date: string
+  date: Date
+  user?: {
+    id: string;
+    name: string;
+    email: string;
+    role: string;
+  };
 }
 
 export interface CommentListProps {

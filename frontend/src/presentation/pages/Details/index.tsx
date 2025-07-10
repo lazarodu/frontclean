@@ -52,7 +52,7 @@ export function Details() {
         description={post.description}
         content={post.content}
         autor={post.user?.name || "Desconhecido"}
-        data={post.date}
+        data={new Intl.DateTimeFormat("pt-BR").format(new Date(post.date))}
       />
       {currentUser && <CommentForm post_id={post.id} onSubmit={handleCommentAdded} />}
       {postComments && <CommentList comments={postComments} />}

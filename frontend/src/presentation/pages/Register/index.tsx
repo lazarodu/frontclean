@@ -47,7 +47,7 @@ export const RegisterPage = () => {
         <Form onSubmit={handleSubmit}>
           <FormGroup>
             <Label htmlFor="name">Nome</Label>
-            <Input id="name" type="text" value={name} onChange={(e) => setName(e.target.value)} required />
+            <Input id="name" type="text" value={name} onChange={(e) => setName(e.target.value)} required minLength={3} />
           </FormGroup>
 
           <FormGroup>

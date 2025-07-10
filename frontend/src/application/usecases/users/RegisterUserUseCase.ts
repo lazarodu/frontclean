@@ -10,6 +10,7 @@ export class RegisterUserUseCase {
   }
 
   async execute(name: string, email: Email, password: Password) {
-    return await this.registerService.register(name, email.getValue(), password.getValue());
+    const response = await this.registerService.register(name, email.getValue(), password.getValue());
+    return response
   }
 }

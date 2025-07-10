@@ -6,6 +6,7 @@ import type { PostProps } from "../../../shared/types/PostType"
 import { Container, Title } from "./styles"
 import { usePost } from "../../hooks/usePost"
 import { PostForm } from "../../components/PostForm"
+import { toast } from "react-toastify"
 
 export const AdminCreatePostPage = () => {
   const { createPost } = usePost()
@@ -24,7 +25,7 @@ export const AdminCreatePostPage = () => {
       })
       navigate("/admin/posts")
     } catch (error) {
-      console.error("Falha ao criar o post:", error)
+      toast.error(`${error}`)
     } finally {
       setIsLoading(false)
     }

@@ -31,10 +31,10 @@ export class UserServiceHttp implements UserRepository {
     try {
       const response = await api.post("/users/register", { name, email, password, role: 'user' });
       return new User(
-        response.data.id,
-        response.data.name,
-        new Email(response.data.email),
-        response.data.role
+        response.data.user.id,
+        response.data.user.name,
+        new Email(response.data.user.email),
+        response.data.user.role
       );
     } catch (error) {
       throw parseApiError(error);
