@@ -1,7 +1,7 @@
 export interface CommentProps {
   id: string
   post_id: string
-  userId?: string
+  user_id?: string
   comment: string
   date: Date
   user?: {

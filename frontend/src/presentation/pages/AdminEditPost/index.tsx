@@ -28,7 +28,7 @@ export const AdminEditPostPage = () => {
     fetchPost()
   }, [id, getPost])
 
-  const handleSubmit = async (postData: Omit<PostProps, "id" | "date">) => {
+  const handleSubmit = async (postData: Omit<PostProps, "id" | "user_id" | "date">) => {
     if (!id) return
     try {
       setIsLoading(true)

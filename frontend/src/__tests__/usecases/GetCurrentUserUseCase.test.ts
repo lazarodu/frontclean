@@ -3,11 +3,10 @@ import { GetCurrentUserUseCase } from "../../application/usecases/users/GetCurre
 import { type UserRepository } from "../../domain/repositories/UserRepository";
 import { Email } from "../../domain/value-objects/Email";
 import { User } from "../../domain/entities/User";
-import { Password } from "../../domain/value-objects/Password";
 
 describe("GetCurrentUserUseCase", () => {
   it("deve retornar o usuário autenticado", async () => {
-    const fakeUser = new User("1", "John", new Email("john@example.com"), new Password("User4@1234"));
+    const fakeUser = new User("1", "John", new Email("john@example.com"), "admin");
 
     const mockRepo: UserRepository = {
       login: vi.fn(),

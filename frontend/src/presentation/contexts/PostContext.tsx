@@ -15,8 +15,8 @@ export const PostContext = createContext<PostContextType>({
   posts: [],
   isLoading: true,
   getPost: async () => null,
-  createPost: async () => ({ id: "", title: "", description: "", content: "", user_id: "", date: "" }),
-  updatePost: async () => ({ id: "", title: "", description: "", content: "", user_id: "", date: "" }),
+  createPost: async () => ({ id: "", title: "", description: "", content: "", user_id: "", date: new Date() }),
+  updatePost: async () => ({ id: "", title: "", description: "", content: "", user_id: "", date: new Date() }),
   deletePost: async () => { },
 })
 

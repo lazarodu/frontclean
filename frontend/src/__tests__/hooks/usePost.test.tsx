@@ -8,9 +8,9 @@ describe("usePosts Hook", () => {
     const contextValue = {
       posts: [],
       isLoading: false,
-      getPost: () => null,
-      createPost: async () => ({ id: "", title: "", description: "", content: "", autor: "", data: "" }),
-      updatePost: async () => ({ id: "", title: "", description: "", content: "", autor: "", data: "" }),
+      getPost: async () => null,
+      createPost: async () => ({ id: "", title: "", description: "", content: "", user_id: "", date: new Date() }),
+      updatePost: async () => ({ id: "", title: "", description: "", content: "", user_id: "", date: new Date() }),
       deletePost: async () => { },
     }
 

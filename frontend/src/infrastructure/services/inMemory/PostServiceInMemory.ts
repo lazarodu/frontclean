@@ -20,7 +20,7 @@ export class PostServiceInMemory implements PostRepository {
       data.description,
       data.content,
       data.user_id,
-      new Date().toLocaleDateString()
+      new Date()
     );
     this.posts.push(newPost);
     return newPost;

@@ -10,7 +10,7 @@ export class CommentServiceHttp implements CommentRepository {
     try {
       const res = await api.post("/comments", data);
       const c = res.data;
-      const comment = new Comment(c.id, c.post_id, c.userId, c.comment, c.date);
+      const comment = new Comment(c.id, c.post_id, c.user_id, c.comment, c.date);
       this.allComments.push(comment);
       return comment;
     } catch (err) {

@@ -11,9 +11,9 @@ function TestComponent() {
     <div>
       <div>Loading: {isLoading ? "true" : "false"}</div>
       <div>Posts count: {posts.length}</div>
-      <div>Get post 1 title: {getPost("1")?.title || "not found"}</div>
+      <div>Get post 1 title: {getPost("1").then(a => a?.title) || "not found"}</div>
 
-      <button onClick={() => createPost({ title: "New Post", description: "desc", content: "content", autor: "Autor" })} data-testid="create">
+      <button onClick={() => createPost({ title: "New Post", description: "desc", content: "content" })} data-testid="create">
         Create Post
       </button>
 

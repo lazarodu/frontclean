@@ -6,8 +6,8 @@ interface CommentContextType {
   comments: CommentProps[]
   isLoading: boolean
   getCommentsByPost: (post_id: string) => Promise<CommentProps[]>
-  getCommentsByUser: (userId: string) => Promise<CommentProps[]>
-  addComment: (comment: Omit<CommentProps, "id" | "userId">) => Promise<CommentProps>
+  getCommentsByUser: (user_id: string) => Promise<CommentProps[]>
+  addComment: (comment: Omit<CommentProps, "id" | "user_id">) => Promise<CommentProps>
   deleteComment: (id: string) => Promise<void>
 }
 
@@ -16,7 +16,7 @@ export const CommentContext = createContext<CommentContextType>({
   isLoading: true,
   getCommentsByPost: async () => [],
   getCommentsByUser: async () => [],
-  addComment: async () => ({ id: "", post_id: "", comment: "", date: `${new Date()}` }),
+  addComment: async () => ({ id: "", post_id: "", comment: "", date: new Date() }),
   deleteComment: async () => { },
 })
 
@@ -39,21 +39,21 @@ export const CommentProvider = ({ children }: CommentProviderProps) => {
   const getCommentsByPost = async (post_id: string) => {
     // return comments.filter((comment) => comment.post_id === post_id).map((p) => ({
     //   ...p,
-    //   autor: users.filter(u => u.id === p.userId)[0].name
+    //   autor: users.filter(u => u.id === p.user_id)[0].name
     // }))
     const useCase = makeGetCommentsByPostUseCase()
     const result = await useCase.execute(post_id)
     return result
   }
 
-  const getCommentsByUser = async (userId: string) => {
-    // return comments.filter((comment) => comment.userId === userId)
+  const getCommentsByUser = async () => {
+    // return comments.filter((comment) => comment.user_id === user_id)
     const useCase = makeGetCommentsByUserUseCase()
-    const result = await useCase.execute(userId)
+    const result = await useCase.execute()
     return result
   }
 
-  const addComment = async (commentData: Omit<CommentProps, "id" | "userId" | "date">) => {
+  const addComment = async (commentData: Omit<CommentProps, "id" | "user_id" | "date">) => {
     // Simula chamada de API
     return new Promise<CommentProps>((resolve) => {
       setTimeout(async () => {

@@ -1,7 +1,8 @@
 import { render, screen, act } from "@testing-library/react"
 import { CommentProvider, CommentContext } from "../../presentation/contexts/CommentContext"
 import { vi } from "vitest"
-import { useContext } from "react"
+import { useContext, useEffect, useState } from "react"
+import type { CommentProps } from "../../shared/types/CommentType"
 
 vi.useFakeTimers()
 
@@ -18,8 +19,8 @@ const TestComponent = () => {
   const handleAdd = async () => {
     await addComment({
       post_id: "1",
-      userId: "1",
       comment: "Novo comentário",
+      date: new Date(),
     })
   }
 
@@ -30,8 +31,13 @@ const TestComponent = () => {
     }
   }
 
-  const postComments = getCommentsByPost("post-1")
-  const userComments = getCommentsByUser("user-1")
+  const [postComments, setPostComments] = useState<CommentProps[]>([])
+  const [userComments, setUserComments] = useState<CommentProps[]>([])
+
+  useEffect(() => {
+    getCommentsByPost("post-1").then(setPostComments)
+    getCommentsByUser("user-1").then(setUserComments)
+  }, [comments])
 
   return (
     <div>
@@ -40,7 +46,7 @@ const TestComponent = () => {
       <p>Post 1 comments count: {postComments.length}</p>
       <p>User 1 comments count: {userComments.length}</p>
       {postComments.map((c) => (
-        <p key={c.id}>Autor: {c.autor}</p>
+        <p key={c.id}>Autor: {c.user?.name}</p>
       ))}
       <button onClick={handleAdd} data-testid="add">Add Comment</button>
       <button onClick={handleDelete} data-testid="delete">Delete Comment</button>

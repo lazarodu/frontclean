@@ -1,3 +1,4 @@
+import type { User } from "./User"
 
 export class Post {
   public readonly id: string = ''
@@ -5,16 +6,16 @@ export class Post {
   public readonly description: string = ''
   public readonly content: string = ''
   public readonly user_id: string = ''
-  public readonly date: string = ''
-  public readonly user = { id: '', name: '', email: '', role: 'user' };
+  public readonly date: Date = new Date()
+  public readonly user?: User = undefined;
 
-  constructor(id: string, title: string, description: string, content: string, user_id: string, date: string, user: { id: string, name: string, email: string, role: string }) {
+  constructor(id: string, title: string, description: string, content: string, user_id: string, date: Date, user?: User) {
     this.id = id;
     this.title = title;
     this.description = description;
     this.content = content;
     this.user_id = user_id;
     this.date = date;
-    this.user = user
+    this.user = user;
   }
 }

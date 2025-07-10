@@ -20,7 +20,7 @@ export function CommentForm({ post_id, onSubmit }: CommentFormProps) {
       await addComment({
         post_id,
         comment: comment.trim(),
-        date: new Date().toISOString(),
+        date: new Date(),
       })
 
       setComment("")
