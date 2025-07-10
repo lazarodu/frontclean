@@ -12,7 +12,7 @@ export interface PostProps {
     email: Email;
     role: 'user' | 'admin';
   };
-  date: Date;
+  date: string;
 }
 export interface PostListProps {
   posts: PostProps[];

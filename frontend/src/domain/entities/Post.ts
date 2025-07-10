@@ -6,10 +6,10 @@ export class Post {
   public readonly description: string = ''
   public readonly content: string = ''
   public readonly user_id: string = ''
-  public readonly date: Date = new Date()
+  public readonly date: string = ''
   public readonly user?: User = undefined;
 
-  constructor(id: string, title: string, description: string, content: string, user_id: string, date: Date, user?: User) {
+  constructor(id: string, title: string, description: string, content: string, user_id: string, date: string, user?: User) {
     this.id = id;
     this.title = title;
     this.description = description;

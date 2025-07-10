@@ -4,6 +4,7 @@ import { useComment } from "../../hooks/useComment"
 import { usePost } from "../../hooks/usePost"
 import { CommentContent, CommentDate, CommentHeader, CommentItem, Container, DeleteButton, LoadingMessage, NoComments, PostTitle, Title } from "./styles"
 import type { CommentProps } from "../../../shared/types/CommentType"
+import { format, parseISO } from "date-fns"
 
 interface CommentWithPost extends CommentProps {
   postTitle: string
@@ -59,7 +60,7 @@ export const UserCommentsPage = () => {
       </>
     )
   }
-
+  console.log(userComments)
   return (
     <>
       <Container>
@@ -72,7 +73,7 @@ export const UserCommentsPage = () => {
             <CommentItem key={comment.id}>
               <CommentHeader>
                 <PostTitle>{comment.postTitle}</PostTitle>
-                <CommentDate>{new Intl.DateTimeFormat("pt-BR").format(comment.date)}</CommentDate>
+                <CommentDate>{comment.date ? format(parseISO(comment.date), "dd/MM/yyyy") : ""}</CommentDate>
               </CommentHeader>
               <CommentContent>{comment.comment}</CommentContent>
               <DeleteButton onClick={() => handleDeleteComment(comment.id)}>Apagar</DeleteButton>

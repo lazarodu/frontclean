@@ -5,7 +5,7 @@ export interface CommentProps {
   post_id: string
   user_id?: string
   comment: string
-  date: Date
+  date: string
   user?: {
     id: string;
     name: string;

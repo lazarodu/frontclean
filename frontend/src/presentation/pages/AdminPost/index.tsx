@@ -1,3 +1,4 @@
+import { format, parseISO } from "date-fns"
 import { usePost } from "../../hooks/usePost"
 import { ActionButtons, Container, CreateButton, DeleteButton, EditButton, LoadingMessage, NoPosts, Table, Td, Th, Title, TitleRow } from "./styles"
 
@@ -41,7 +42,7 @@ export const AdminPostPage = () => {
                 <tr key={post.id}>
                   <Td>{post.title}</Td>
                   <Td>{post.user?.name}</Td>
-                  <Td>{new Intl.DateTimeFormat("pt-BR").format(post.date)}</Td>
+                  <Td>{post.date ? format(parseISO(post.date), "dd/MM/yyyy") : ""}</Td>
                   <Td>
                     <ActionButtons>
                       <EditButton to={`/admin/posts/edit/${post.id}`}>Edit</EditButton>
